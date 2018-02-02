@@ -1,58 +1,103 @@
 #include <stdio.h>
+#define MAX_STORE 100
+#include <stdlib.h>
+
+typedef struct
+{
+	int row;
+	int col;
+	int val;
+}sparse;
+
+int terms;
+
+void sparse_init(sparse a[])
+{
+	int i;
+	for(i = 0; i < MAX_STORE; i++)
+	{
+		a[i].row = 0;
+		a[i].col = 0;
+		a[i].val = 0;
+	}
+}
+
+void sparse_read(sparse a[], int r, int c)
+{
+	int i, j, item= 0;
+	terms = 0;
+	printf("Enter a sparse matrix by %d*%d\n", r, c);
+	for(i = 0; i < r; i++)
+	{
+		for(j = 0; j < c; j++)
+		{
+			scanf("%d", &item);
+			if(item)
+			{
+				a[terms].row = i;
+				a[terms].col = j;
+				a[terms].val = item;
+				terms++;
+			}
+		}
+	}
+}
+
+sparse* sparse_transpose(sparse a[], int col, int terms)
+{
+	sparse *b;
+	b = malloc(terms * sizeof(sparse));
+	int i, j;
+	if(terms)
+	{
+		int k = 0;
+		for(i = 0; i < col; i++)
+		{
+			for(j = 0; j < terms; j++)
+			{
+				if(a[j].col == i)
+				{
+					(b+k) -> row = i;
+					(b+k) -> col = a[j].row;
+					(b+k) -> val = a[j].val;
+					k++;
+				}
+			}	
+		}		
+	}
+	return b;	
+}
+
+void sparse_display(sparse a[])
+{
+	int i;
+	printf("Row\t Col\t Val\n");
+	for(i = 0; i < MAX_STORE; i++)
+	{
+		if(a[i].val)
+		{
+			printf("%d", a[i].row);			
+			printf("\t %d", a[i].col);			
+			printf("\t %d\n", a[i].val);			
+		}
+	}
+}
 
 int main(void)
 {
-        int i, j, size = 0;
-        int OriginArr[4][5] =
-        {
-                {0, 0, 3, 0, 4},
-                {0, 0, 5, 7, 0},
-                {0, 0, 0, 0, 0},
-                {0, 2, 6, 1, 0}
-        };
-
-        // Print OriginArr
-        printf("The Origin Matrix: \n");
-        for(i = 0; i < 4; i++)
-        {
-                for(j = 0; j < 5; j++)
-                {
-                        printf("%d ", OriginArr[i][j]);
-                }
-                printf("\n");
-        }
-
-		// Init TransPosArr
-		int TransPosArr[5][4];
-		for(i = 0; i < 5; i++)
-		{
-			for(j = 0; j < 4; j++)
-			{
-				TransPosArr[i][j] = 0;
-			}
-		}
-
-		// Transpose the OringinArr 		
-		for(i = 0; i < 4; i++)
-		{
-			for(j = 0; j < 5; j++)
-			{
-				if(OriginArr[i][j])
-				{
-					TransPosArr[j][i] = OriginArr[i][j];
-				}
-			}
-		}
-		
-        // Print TransPosArr
-        printf("The TransPosArr Matrix: \n");
-        for(i = 0; i < 5; i++)
-        {
-                for(j = 0; j < 4; j++)
-                {
-                        printf("%d ", TransPosArr[i][j]);
-                }
-                printf("\n");
-		}
-        return 0;
+	int sm_row, sm_col;
+	sparse origin[MAX_STORE];
+	sparse_init(origin);
+	printf("Enter the row of sparse matrix: \n");
+	scanf("%d", &sm_row);
+	printf("Enter the col of sparse matrix: \n");
+	scanf("%d", &sm_col);
+	sparse_read(origin, sm_row, sm_col);
+	printf("The sparse of origin: \n");
+	sparse_display(origin);
+	sparse *transpose = sparse_transpose(origin, sm_col, terms);
+	printf("The sparse of transpose: \n");
+	sparse_display(transpose);
+	free(transpose);
+	return 0;
 }
