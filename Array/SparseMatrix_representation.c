@@ -1,79 +1,69 @@
 #include <stdio.h>
+#define MAX_STORE 100
+
+typedef struct
+{
+	int row;
+	int col;
+	int val;
+}sparse;
+
+void sparse_init(sparse a[])
+{
+	int i;
+	for(i = 0; i < MAX_STORE; i++)
+	{
+		a[i].row = 0;
+		a[i].col = 0;
+		a[i].val = 0;
+	}	
+}
+
+void sparse_read(sparse a[], int row, int col)
+{
+	int i, j, item, terms = 0;
+	printf("Enter a sparse matrix by %d*%d\n", row, col);
+	for(i = 0; i < row; i++)
+	{
+		for(j = 0; j < col; j++)
+		{
+			scanf("%d", &item);
+			if(item)
+			{
+				a[terms].row = i;
+				a[terms].col = j;
+				a[terms].val = item;
+				terms++;
+			}
+		}
+	}
+}
+
+void sparse_display(sparse a[])
+{
+	int i;
+	printf("Row\t Col\t Val\n");
+	for(i = 0; i < MAX_STORE; i++)
+	{
+		if(a[i].val)
+		{
+			printf("%d", a[i].row);
+			printf("\t %d", a[i].col);
+			printf("\t %d\n", a[i].val);
+		}
+	}
+}
 
 int main(void)
 {
-        int i, j, size = 0;
-        int OriginArr[4][5] =
-        {
-                {0, 0, 3, 0, 4},
-                {0, 0, 5, 7, 0},
-                {0, 0, 0, 0, 0},
-                {0, 2, 6, 1, 0}
-        };
-
-        //Print OriginArr
-        printf("The Origin Matrix: \n");
-        for(i = 0; i < 4; i++)
-        {
-                for(j = 0; j < 5; j++)
-                {
-                        printf("%d ", OriginArr[i][j]);
-                }
-                printf("\n");
-        }
-
-        //Get max non-zero number in OriginArr
-        for(i = 0; i < 4; i++)
-        {
-                for(j = 0; j < 5; j ++)
-                {
-                        if(OriginArr[i][j]){ size++; }
-                }
-        }
-
-        // Construct a new SparseArr
-        // SparseArr[0] -> store row index
-        // SparseArr[1] -> store col index
-        // SparseArr[2] -> store value
-        int SparseArr[3][size];
-        for(i = 0; i < 3; i++)
-        {
-                for(j = 0; j < size; j++)
-                {
-                        SparseArr[i][j] = 0;
-                }
-        }
-
-        // Covert OriginArr to SparseArr representation
-        int k = 0;
-        for(i = 0; i < 4; i ++)
-        {
-                for(j = 0; j < 5; j++)
-                {
-                        if(OriginArr[i][j])
-                        {
-                                SparseArr[0][k] = i;
-                                SparseArr[1][k] = j;
-                                SparseArr[2][k] = OriginArr[i][j];
-                                k++;
-                        }
-                }
-        }
-
-        //Print SparseArr
-        printf("The Sparse Matrix: \n");
-        for(i = 0; i < 3; i++)
-        {
-                if(i == 0){ printf("Row: "); }
-                if(i == 1){ printf("Col: "); }
-                if(i == 2){ printf("Val: "); }
-
-                for(j = 0; j < size; j++)
-                {
-                        printf("%d ", SparseArr[i][j]);
-                }
-                printf("\n");
-        }
-
+		int sm_row, sm_col;
+		sparse origin[MAX_STORE];
+		sparse_init(origin);
+		printf("Enter the row of sparse matrix: \n");
+		scanf("%d", &sm_row);
+		printf("Enter the col of sparse matrix: \n");
+		scanf("%d", &sm_col);
+		sparse_read(origin, sm_row, sm_col);
+		sparse_display(origin);	 		
         return 0;
 }
