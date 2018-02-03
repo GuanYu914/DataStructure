@@ -1,6 +1,11 @@
 #include <stdio.h>
-#define MAX_STORE 100
 #include <stdlib.h>
+#define MAX_STORE 100
+
+// Time Complexity:
+// Non-Sparse matrix: O(col * terms)
+// Sparse matrix    : O(col * col * row)
+// ps. terms = col * row
 
 typedef struct
 {
@@ -9,6 +14,7 @@ typedef struct
 	int val;
 }sparse;
 
+// Using global variable to record the non-zero number in matrix
 int terms;
 
 void sparse_init(sparse a[])
@@ -22,16 +28,17 @@ void sparse_init(sparse a[])
 	}
 }
 
-void sparse_read(sparse a[], int r, int c)
+void sparse_read(sparse a[], int row, int col)
 {
 	int i, j, item= 0;
 	terms = 0;
-	printf("Enter a sparse matrix by %d*%d\n", r, c);
-	for(i = 0; i < r; i++)
+	printf("Enter a sparse matrix by %d*%d\n", row, col);
+	for(i = 0; i < row; i++)
 	{
-		for(j = 0; j < c; j++)
+		for(j = 0; j < col; j++)
 		{
 			scanf("%d", &item);
+			// record non-zero number
 			if(item)
 			{
 				a[terms].row = i;
@@ -48,9 +55,11 @@ sparse* sparse_transpose(sparse a[], int col, int terms)
 	sparse *b;
 	b = malloc(terms * sizeof(sparse));
 	int i, j;
+	// if matrix is non-zero
 	if(terms)
 	{
 		int k = 0;
+		// transpose by columns
 		for(i = 0; i < col; i++)
 		{
 			for(j = 0; j < terms; j++)

@@ -28,6 +28,7 @@ void sparse_read(sparse a[], int row, int col)
 		for(j = 0; j < col; j++)
 		{
 			scanf("%d", &item);
+			// if item is no-zero number then record it.
 			if(item)
 			{
 				a[terms].row = i;
@@ -45,6 +46,7 @@ void sparse_display(sparse a[])
 	printf("Row\t Col\t Val\n");
 	for(i = 0; i < MAX_STORE; i++)
 	{
+		// if a[i].val is non-zero then display it.
 		if(a[i].val)
 		{
 			printf("%d", a[i].row);
@@ -64,6 +66,7 @@ int main(void)
 		printf("Enter the col of sparse matrix: \n");
 		scanf("%d", &sm_col);
 		sparse_read(origin, sm_row, sm_col);
+		printf("The sparse of origin: \n");
 		sparse_display(origin);	 		
         return 0;
 }
