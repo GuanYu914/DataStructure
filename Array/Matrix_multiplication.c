@@ -8,7 +8,7 @@ void mt_display(int **arr, int r, int c)
 	{
 		for(j = 0; j < c; j++)
 		{
-			printf("%d ", *(*(arr + i) + j));
+			printf("%d\t", *(*(arr + i) + j));
 		}
 		printf("\n");
 	}
