@@ -25,7 +25,6 @@ int main(void)
 			{
 				printf("The specific Pattern in the text from %d index exactly.\n", i+1);
 				fail_flg = 0;
-				break;
 			}
 		}
 	}
