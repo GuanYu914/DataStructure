@@ -49,6 +49,8 @@ void kmp(char *t, char *p)
 				// (i - j) is the pattern begin index, then from the index 1
 				printf("The specific Pattern in the text from %d index exactly.\n", (i - j) + 1);
 				i++;
+				// back to the first index of pattern
+				j = 0;
 				flag = 1;
 			}
 			else
